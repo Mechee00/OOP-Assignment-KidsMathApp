@@ -8,7 +8,7 @@ public class GUI_Util extends JFrame {
     protected static final int SWIDTH = 1366, SHEIGHT = 768; // 1366 x 768
     // protected static final int SWIDTH = 1920, SHEIGHT = 1080; // 1920 x 1080
 
-    static void cInit(JFrame frame) {
+    static void cInit(JFrame frame, JPanel panel) {
         // Set frame size
         // frame.setMinimumSize(new Dimension(SWIDTH, SHEIGHT));
         frame.setPreferredSize(new Dimension(SWIDTH, SHEIGHT));
@@ -22,6 +22,8 @@ public class GUI_Util extends JFrame {
         frame.setTitle("Maths Fever V0.1 by Cheah Pin Chee");
         // Set Close Action
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Set Panel to show
+        frame.setContentPane(panel);
         // Pack GUI
         frame.pack();
         // Set location relative
@@ -30,40 +32,42 @@ public class GUI_Util extends JFrame {
         frame.setVisible(true);
     }
 
-    static void setPane(JFrame frame, JPanel panel, boolean visible) {
-        frame.pack();
-        frame.setContentPane(panel);
-        frame.setVisible(visible);
-    }
-
+    // Set or change panel or precisely siwtch card of a panel in card layout
     static void setContentPane(JPanel parentPanel, JPanel contentPanel) {
-        parentPanel.removeAll();
-        parentPanel.add(contentPanel);
-        parentPanel.repaint();
-        parentPanel.revalidate();
+        parentPanel.removeAll(); // Remove every panel or component
+        parentPanel.add(contentPanel); // Add new panel panel to show
+        parentPanel.repaint(); // Repaint the panel
+        parentPanel.revalidate(); // Validate the panel
     }
 
+    // Set the graphics for the jcomponent mostly for lbl and btn
     static void setComptIcon(JComponent component, double scaleFactor, String imgSource) {
 
-        component.setBorder(null);
-        component.setOpaque(false);
+        // Remove the border and set it to transparent
+        makeTransparent(component);
 
+        // Get the image as icon and apply scale to size the graphcis
         ImageIcon imageIcon = new ImageIcon(imgSource);
         Image newimg = imageIcon.getImage().getScaledInstance((int)(imageIcon.getIconWidth() * scaleFactor),
                 (int)(imageIcon.getIconHeight() * scaleFactor), java.awt.Image.SCALE_SMOOTH);
 
         imageIcon = new ImageIcon(newimg); // transform it back to an icon
+        // Set the icon base on the component
         if (component instanceof JLabel) {
-            JLabel lbl = (JLabel)component;
+            // Set the graphics for labels
+            JLabel lbl = (JLabel)component; // Convert JComponent to JLabel
             lbl.setIcon(imageIcon);
         } else if (component instanceof JButton) {
-            JButton btn = (JButton)component;
+            // Set the graphics for buttons
+            JButton btn = (JButton)component; // Convert JComponent to JButton
             btn.setContentAreaFilled(false);
             btn.setFocusPainted(false);
             btn.setIcon(imageIcon);
         }
     }
 
+    // Set the component to be transparent
+    // Special use case for text fields w
     static void makeTransparent(JComponent component) {
         component.setBorder(null);
         component.setOpaque(false);

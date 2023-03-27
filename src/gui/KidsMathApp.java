@@ -1,24 +1,27 @@
 package gui;
 
-import adt.*;
-import entity.*;
+import adt.*; // For array implementation
+import entity.*; // For objects
 
 import javax.swing.*;
-
 import java.awt.Point;
 import java.awt.event.*;
 
 public class KidsMathApp extends JFrame {
+    // Array for 5 rounds of games
     private ArrayList<Game> gameArr = new ArrayList<Game>();
+    // User object to store user name
     private Player player = new Player();
+    // To drag and move the windows around
     private Point mouoseCoordinate;
-    private final double SCALE_ADJUST = 0.0;
 
-    private JPanel Container;
+    private final double SCALE_ADJUST = 0.0; // Adjust of hover scaling effect
 
-    // Title
-    private JPanel PaneTitle;
-    private JPanel ContentPaneContainer;
+    private JPanel Container; // Master panel 
+
+    // Title Panel, static and exist in whole game
+    private JPanel PaneTitle; // Panel container for title
+    private JPanel ContentPaneContainer; // Panel container for changing panel, in card layout
     private JLabel lblTitle;
     private JButton btnExit;
     private JButton btnBack;
@@ -27,7 +30,7 @@ public class KidsMathApp extends JFrame {
     private final double BTNBACK_SCALE = 0.5;
 
     // Start
-    private JPanel ContentStart;
+    private JPanel ContentStart; // Start Panel
     private JLabel lblWelcomeMsg;
     private JLabel lblWhatName;
     private JLabel lblLeftBrac;
@@ -41,7 +44,7 @@ public class KidsMathApp extends JFrame {
     private final double BTNCONFIRM_SCALE = 0.7;
 
     // Menu
-    private JPanel ContentMenu;
+    private JPanel ContentMenu; // Menu Panel
     private JLabel lblGreeting;
     private JLabel lblGameDescription;
     private JButton btnModeAdd;
@@ -51,7 +54,7 @@ public class KidsMathApp extends JFrame {
     private final double BTNMODE_SCALE = 0.75;
 
     // Game
-    private JPanel ContentGame;
+    private JPanel ContentGame; // Game Panel
     private JLabel lblQuestionNum;
     private JLabel lblNum1;
     private JLabel lblOp;
@@ -72,7 +75,7 @@ public class KidsMathApp extends JFrame {
     private final double LBLQN_SCALE = 1;
 
     // Score
-    private JPanel ContentScore;
+    private JPanel ContentScore; // Score Panel
     private JLabel lblScoreBoard;
     private JLabel lblScoreMode;
 
@@ -123,6 +126,7 @@ public class KidsMathApp extends JFrame {
     private final double LBLCRRANS = 0.3;
     private final double BTNFINISH_SCALE = 0.6;
 
+    // A counter or tracker for tracking current panel
     private enum paneIndex {
         Start, Menu, Game1, Game2, Game3, Game4, Game5, Score
     }
@@ -181,7 +185,7 @@ public class KidsMathApp extends JFrame {
         gameArr.add(new ModeMinus()); // Set Question 3
         gameArr.add(new ModeMinus()); // Set Question 4
         gameArr.add(new ModeMinus()); // Set Question 5
-        gameInit(1);
+        gameInit(1); // Set Question 1 Graphics
     }
 
     private void gameMultiplyInit() {
@@ -191,7 +195,7 @@ public class KidsMathApp extends JFrame {
         gameArr.add(new ModeMultiply()); // Set Question 3
         gameArr.add(new ModeMultiply()); // Set Question 4
         gameArr.add(new ModeMultiply()); // Set Question 5
-        gameInit(1);
+        gameInit(1); // Set Question 1 Graphics
     }
 
     private void gameMixInit() {
@@ -201,13 +205,13 @@ public class KidsMathApp extends JFrame {
         gameArr.add(new ModeMix()); // Set Question 3
         gameArr.add(new ModeMix()); // Set Question 4
         gameArr.add(new ModeMix()); // Set Question 5
-        gameInit(1);
+        gameInit(1); // Set Question 1 Graphics
     }
 
     private void scoreBoardInit() {
-        // Set Mode
+        // Set Mode graphics
         GUI_Util.setComptIcon(lblScoreMode, LBLSCOREMODE_SCALE, strIconPathOfGMode(1));
-        // Set Question
+        // Set Question graphics
         lblScoreQ1.setText(strOfNum(1, 1) + " " + strOfGMode(1) + " " + strOfNum(1, 2));
         lblScoreQ2.setText(strOfNum(2, 1) + " " + strOfGMode(2) + " " + strOfNum(2, 2));
         lblScoreQ3.setText(strOfNum(3, 1) + " " + strOfGMode(3) + " " + strOfNum(3, 2));
@@ -229,82 +233,78 @@ public class KidsMathApp extends JFrame {
         lblScoreAns5.setText(strOfUserAnswer(5));
 
         // Set Score
-        if (gameArr.getItemOf(1).getAnsIsCorrect()) {
-            GUI_Util.setComptIcon(lblScoreScore1, LBLSCORESCORE_SCALE, "img/Right.png");
-        } else {
-            GUI_Util.setComptIcon(lblScoreScore1, LBLSCORESCORE_SCALE, "img/Wrong.png");
-        }
-        if (gameArr.getItemOf(2).getAnsIsCorrect()) {
-            GUI_Util.setComptIcon(lblScoreScore2, LBLSCORESCORE_SCALE, "img/Right.png");
-        } else {
-            GUI_Util.setComptIcon(lblScoreScore2, LBLSCORESCORE_SCALE, "img/Wrong.png");
-        }
-        if (gameArr.getItemOf(3).getAnsIsCorrect()) {
-            GUI_Util.setComptIcon(lblScoreScore3, LBLSCORESCORE_SCALE, "img/Right.png");
-        } else {
-            GUI_Util.setComptIcon(lblScoreScore3, LBLSCORESCORE_SCALE, "img/Wrong.png");
-        }
-        if (gameArr.getItemOf(4).getAnsIsCorrect()) {
-            GUI_Util.setComptIcon(lblScoreScore4, LBLSCORESCORE_SCALE, "img/Right.png");
-        } else {
-            GUI_Util.setComptIcon(lblScoreScore4, LBLSCORESCORE_SCALE, "img/Wrong.png");
-        }
-        if (gameArr.getItemOf(5).getAnsIsCorrect()) {
-            GUI_Util.setComptIcon(lblScoreScore5, LBLSCORESCORE_SCALE, "img/Right.png");
-        } else {
-            GUI_Util.setComptIcon(lblScoreScore5, LBLSCORESCORE_SCALE, "img/Wrong.png");
-        }
+        GUI_Util.setComptIcon(lblScoreScore1, LBLSCORESCORE_SCALE, strIPathOfAns(1));
+        GUI_Util.setComptIcon(lblScoreScore2, LBLSCORESCORE_SCALE, strIPathOfAns(2));
+        GUI_Util.setComptIcon(lblScoreScore3, LBLSCORESCORE_SCALE, strIPathOfAns(3));
+        GUI_Util.setComptIcon(lblScoreScore4, LBLSCORESCORE_SCALE, strIPathOfAns(4));
+        GUI_Util.setComptIcon(lblScoreScore5, LBLSCORESCORE_SCALE, strIPathOfAns(5));
     }
 
     private String strOfNum(int index, int numVar) {
+        // Return string of 1st random number and 2nd random number
         switch (numVar) {
         case 1:
-            return Integer.toString(gameArr.getItemOf(index).getVar1());
+            return Integer.toString(gameArr.getItemOf(index).getVar1()); // Return 1st var
         case 2:
-            return Integer.toString(gameArr.getItemOf(index).getVar2());
+            return Integer.toString(gameArr.getItemOf(index).getVar2()); // Return 2nd var
         default:
-            return "";
+            return ""; // Return empty string
         }
     }
 
     private String strOfGMode(int index) {
+        // Return string of the operator
         switch (gameArr.getItemOf(index).getModeOp()) {
         case Add:
-            return "+";
+            return "+"; // Return +
         case Minus:
-            return "-";
+            return "-"; // Return -
         case Multiply:
-            return "x";
+            return "x"; // Return x
         default:
-            return "";
+            return ""; // Return empty string
         }
     }
 
     private String strIconPathOfGMode(int index) {
-
+        // Return string of the game mode graphic path base on the game mode 
         switch (gameArr.getItemOf(index).getGameMode()) {
         case Add:
-            return "img/Add.png";
+            return "img/Add.png"; // Return add mode graphic
         case Minus:
-            return "img/Minus.png";
+            return "img/Minus.png"; // Return minus mode grpahics
         case Multiply:
-            return "img/Multiply.png";
+            return "img/Multiply.png"; // Return multiply mode graphics
         case Mix:
-            return "img/Mixed.png";
+            return "img/Mixed.png"; // Return mixed mode graphics
         default:
-            return "";
+            return ""; // Return nothing
         }
     }
 
     private String strOfAnswer(int index) {
+        // Return the correct answer as string
         return Integer.toString(gameArr.getItemOf(index).getAnswer());
     }
 
     private String strOfUserAnswer(int index) {
+        // Return user's answer as string
         return Integer.toString(gameArr.getItemOf(index).getUserAnswer());
     }
 
-    // Constructor
+    private String strIPathOfAns(int index) {
+        // Return icon path as string of the right or wrong answer base on
+        // the user's answer
+        if (gameArr.getItemOf(index).getAnsIsCorrect()) {
+            // Return the right answer graphic if the answer is correct
+            return "img/Right.png";
+        } else {
+            // Return the wrong answer graphic if the answer is wrong
+            return "img/Wrong.png";
+        }
+    }
+
+    // Constructor of the JFrame
     public KidsMathApp() {
         // Set Graphics Title Pane
         GUI_Util.setComptIcon(lblTitle, LBLTITLE_SCALE, "img/Title.png");
@@ -348,10 +348,9 @@ public class KidsMathApp extends JFrame {
         GUI_Util.setComptIcon(btnFinish, BTNFINISH_SCALE, "img/Finish.png");
 
         // Frame Initialize
-        GUI_Util.cInit(this);
-        GUI_Util.setPane(this, Container, true);
+        GUI_Util.cInit(this, Container);
 
-        // Events Title Pane
+        // Events Title Pane, Set mouse hover, and click effect
         btnExit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -427,7 +426,7 @@ public class KidsMathApp extends JFrame {
             }
         });
 
-        // Events Content Start Pane
+        // Events Content Start Pane, Set text field key checking
         textField_Name.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -513,7 +512,7 @@ public class KidsMathApp extends JFrame {
 
         });
 
-        //  Events Content Menu Pane
+        //  Events Content Menu Pane, Set mouse hover, and click effect
         btnModeAdd.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -649,7 +648,7 @@ public class KidsMathApp extends JFrame {
 
         });
 
-        // Events Content Game Pane
+        // Events Content Game Pane, Set mouse hover, and click effect
         btnNext.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -792,6 +791,8 @@ public class KidsMathApp extends JFrame {
 
         });
 
+        // Set mouse listener for the frame itself
+        // Used for drag and move the window
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -818,6 +819,8 @@ public class KidsMathApp extends JFrame {
 
         JFrame frame = new KidsMathApp();
 
+        // Alternative method to add drag and drop to frame.
+        // Backup option for testing and degbug
         // frame.addMouseListener(new MouseAdapter() {
         //     @Override
         //     public void mouseReleased(MouseEvent e) {
